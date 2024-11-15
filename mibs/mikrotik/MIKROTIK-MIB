@@ -8,11 +8,11 @@ TEXTUAL-CONVENTION, DisplayString, MacAddress, TruthValue, DateAndTime FROM SNMP
 OBJECT-GROUP, NOTIFICATION-GROUP FROM SNMPv2-CONF;
 
 mikrotikExperimentalModule MODULE-IDENTITY
-  LAST-UPDATED "202410170000Z"
+  LAST-UPDATED "202410300000Z"
   ORGANIZATION "MikroTik"
   CONTACT-INFO "support@mikrotik.com"
   DESCRIPTION ""
-  REVISION "202410170000Z"
+  REVISION "202410300000Z"
   DESCRIPTION ""
   ::= { mikrotik 1 }
 
@@ -2986,7 +2986,8 @@ mtxrPOEStatus OBJECT-TYPE
         controllerUpgrade(11),
         poeInDetected(12),
         noValidPsu(13),
-        controllerInit(14)
+        controllerInit(14),
+        lowVoltageTooLow(15)
     }
     MAX-ACCESS read-only
     STATUS current
