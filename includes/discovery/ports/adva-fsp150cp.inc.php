@@ -1,6 +1,8 @@
 <?php
-/*
- * LibreNMS pre-cache module for Eltex-mes23xx OS
+/**
+ * adva-fsp150cp.inc.php
+ *
+ * LibreNMS ADVA port discovery
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,16 +16,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * @package    LibreNMS
- * @link       https://www.librenms.org
- *
- * @copyright  2021 Peca Nesovanovic
- *
- * @author     Peca Nesovanovic <peca.nesovanovic@sattrakt.com>
  */
+$advaports = snmpwalk_cache_oid($device, 'fsp150IfConfigUserString', [], 'FSP150-MIB');
+$advaports = snmpwalk_cache_oid($device, 'entPhysicalName', $advaports, 'ENTITY-MIB');
 
-echo 'rlPethPsePortPowerLimit ';
-$oidpl = snmpwalk_cache_multi_oid($device, 'MARVELL-POE-MIB::rlPethPsePortPowerLimit', [], 'MARVELL-POE-MIB');
-echo 'rlPethPsePortOutputPower ';
-$pre_cache['eltex-mes23xx-poe'] = snmpwalk_cache_multi_oid($device, 'MARVELL-POE-MIB::rlPethPsePortOutputPower', $oidpl, 'MARVELL-POE-MIB');
+d_echo($advaports);
+
+foreach ($advaports as $index => $entry) {
+    // Indexes are the same as IfIndex and EntPhysicalIndex
+
+    if (isset($port_stats[$index])) {
+        $port_stats[$index]['ifAlias'] = $entry['fsp150IfConfigUserString'];
+        $port_stats[$index]['ifName'] = $entry['entPhysicalName'];
+    }
+}
